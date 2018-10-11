@@ -550,6 +550,11 @@ size_t ec_key_simple_priv2oct(const EC_KEY *eckey,
         return buf_len;
     else if (len < buf_len)
         return 0;
+    /* When given an buffer explicit big size than default, then using 
+       that big size rather than default calc. Because when given
+       a key(such like HSM Encrypt Cipher Key)  won't failed later */
+    else if (len >= buf_len)
+        buf_len = len;
 
     /* Octetstring may need leading zeros if BN is to short */
 
